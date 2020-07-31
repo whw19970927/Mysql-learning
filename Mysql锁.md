@@ -1,12 +1,12 @@
 ## 锁的分类
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719142651715.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719142651715.png)
 
 
 
 ### 全局锁
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719143553570.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719143553570.png)
 
 
 #### 概念
@@ -63,7 +63,7 @@ SQL 提供了2种加全局读锁的方法，
 
 
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719144035351.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719144035351.png)
 
 其实表锁可以分为：
 
@@ -95,7 +95,7 @@ SQL 提供了2种加全局读锁的方法，
 
 
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719154521105.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719154521105.png)
 
 举个例子：
 
@@ -113,7 +113,7 @@ SQL 提供了2种加全局读锁的方法，
 
 随后调用`show processlist`
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719161144158.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719161144158.png)
 
 查看此时的HOST，如果是localhost，只需要进入commit或者rollback即可，如果不是的话，就要考量是否可以kill掉。
 
@@ -121,7 +121,7 @@ SQL 提供了2种加全局读锁的方法，
 
 ### 共享锁和排它锁
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719161308241.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719161308241.png)
 
 - `LOCK TABLES t READ`：`InnoDB`存储引擎会对表`t`加表级别的`S锁`。
 
@@ -133,30 +133,30 @@ SQL 提供了2种加全局读锁的方法，
 
 求证：
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719172602023.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719172602023.png)
 
 
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719172526959.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719172526959.png)
 
 
 重开一个事务，发现更新成功
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719172221701.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719172221701.png)
 
 但是发现第一个事务中的数据并没有发生更改，仍然是张飞
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719172639904.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719172639904.png)
 
 从而说明第一个窗口的事务里的select并没有锁，但是具有隔离性并没有读取到窗口2里面更新后的数据。
 
 这次我们加上for update（**在这里我踩了个小坑，一定要两个事务都提交后，才能执行update操作，否则会出现加锁超时的情况**）
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719174443879.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719174443879.png)
 
 而此时事务B再更改的时候
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719174821950.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719174821950.png)
 
 会发现被阻塞住了。
 
@@ -173,7 +173,7 @@ InnoDB支持，上面也说到了行锁和表锁的区别，由于Myisam不支�
 
 #### record lock
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719171243971.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719171243971.png)
 
 这里我的个人理解是record lock锁住的是索引记录，而不是数据行
 
@@ -181,7 +181,7 @@ InnoDB支持，上面也说到了行锁和表锁的区别，由于Myisam不支�
 
 #### Gap Lock
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719181217933.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719181217933.png)
 
 之前提到过，mysql可以在rr的隔离级别避免幻读的问题，就是通过gap lock来完成的，他的作用也仅仅是用来避免幻读。
 
@@ -195,7 +195,7 @@ InnoDB支持，上面也说到了行锁和表锁的区别，由于Myisam不支�
 
 Gap Lock + Record Lock = Next-Key Lock
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719181715528.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719181715528.png)
 
 它既能保护该条记录，又能阻止别的事务将新记录插入被保护记录前边的`间隙`。
 
@@ -207,11 +207,11 @@ Gap Lock + Record Lock = Next-Key Lock
 
 引用上面的例子
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719182618364.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719182618364.png)
 
 如果此时有事务A和事务B想在6 - 10之间插入记录，那他们的琐结构会是这样
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719182744810.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719182744810.png)
 
 当当前事务提交之后会释放掉间nextkey lock，这样t2的状态就会由is_waiting的true变成false，也就是可以获得值为10的插入意向锁，从而插入数据。
 
@@ -225,7 +225,7 @@ Gap Lock + Record Lock = Next-Key Lock
 
 3、例子：事务A修改user表的记录r，会给记录r上一把行级的排他锁（X），同时会给user表上一把意向排他锁（IX），这时事务B要给user表上一个表级的排他锁就会被阻塞。意向锁通过这种方式实现了行锁和表锁共存且满足事务隔离性的要求。
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200719183026653.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/Image/image-20200719183026653.png)
 
 也就是，意向锁的存在会使更高粒度的锁阻塞，直到意向锁释放。
 

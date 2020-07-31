@@ -10,13 +10,13 @@
 
 1.查看位置命令
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713101057143.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713101057143.png)
 
 
 
 2.数据目录
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713101139909.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713101139909.png)
 
 
 
@@ -32,7 +32,7 @@
 
 * 客户端服务端交互流程
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713102108994.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713102108994.png)
 
 * Q：Mysql为什么不支持全文索引？
 
@@ -70,11 +70,11 @@ MySQL将缓存存放在一个引用表中，通过一个哈希值引用，这个
 
 #### 3.分析器
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713105038314.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713105038314.png)
 
 #### 4.优化器
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713105343611.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713105343611.png)
 
 同一句sql可能存在不用的执行计划
 
@@ -84,7 +84,7 @@ select * from T1 t1 join T2 t2 using(ID) where t1.c = 10 and t2.d = 20;
 
 可能存在如下这两种情况，这两种执行方法结果一样，但执行效率可能不同
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713105636290.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713105636290.png)
 
 优化器也就是会选择一个成本最少的执行计划最终执行，通过CBO进行优化
 
@@ -122,7 +122,7 @@ A：Mysql是一个增量逐步的返回过程，每查到一个结果，mysql就
 
 负责数据的存储和提取，其架构模式是插件式的，支持 InnoDB、MyISAM、Memory 等多个存储引擎
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713111903707.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713111903707.png)
 
 在mysql 5.5.5 以后默认存储引擎是innodb
 
@@ -130,7 +130,7 @@ A：Mysql是一个增量逐步的返回过程，每查到一个结果，mysql就
 
 ### InnoDB体系结构
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713112607087.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713112607087.png)
 
 * 整体可分为三层：
 
@@ -142,7 +142,7 @@ A：Mysql是一个增量逐步的返回过程，每查到一个结果，mysql就
 
   
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713113317326.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713113317326.png)
 
 同时之前有提到Mysql采用单进程多线程模型
 
@@ -167,7 +167,7 @@ A：Mysql是一个增量逐步的返回过程，每查到一个结果，mysql就
 
    
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713114058829.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713114058829.png)
 
 Q：Innodb写16kb的数据时，操作系统只能4kb的写，但突然数据库崩了，只写了4k就出问题了，别的没写成功，应该怎么办？
 
@@ -177,7 +177,7 @@ Q：Innodb写16kb的数据时，操作系统只能4kb的写，但突然数据库
 
 #### 缓冲池(读请求，减少磁盘IO)
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713114300111.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713114300111.png)
 
 *上图的New Sublist和Old sublist，分别保存了最近被放访问过的年轻页，尾部则保存了最近被访问的old page,  这样划分也就使新的子列表中保存更重要的page(热点数据)，旧的列表则保存较少使用的page，也就是被清除的候选page*
 
@@ -200,8 +200,9 @@ InnoDB在内存中主要包含：
 * 预读策略：InnoDB认为当前的请求可能之后会读取某些页面，就预先把它们加载到BufferPool中。
 
   也就是预读策略也会导致预读的数据存入前5/8的缓冲池中，将热点数据淘汰
+  
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713120717422.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713120717422.png)
 
 #### Change Buffer（写请求）
 

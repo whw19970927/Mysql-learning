@@ -2,7 +2,7 @@
 
 * Mysql采用单进程多线程架构
 
-![image](https://github.com/whw19970927/Mysql-learning/blob/master/images/image-20200713095023365.png)
+![image](https://github.com/whw19970927/Mysql-learning/blob/master/image/image-20200713095023365.png)
 
  
 

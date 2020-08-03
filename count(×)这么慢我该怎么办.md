@@ -22,7 +22,7 @@ InnoDB执行 count(*) 的时候，需要把数据一行一行地从引擎里面�
 
 总结：
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200802125112769.png)
+![Image](https://img-blog.csdnimg.cn/20200802125112769.png)
 
 ## 应用场景一
 ### 2亿用户，mis后台的用户列表功能，怎么读取总数？**

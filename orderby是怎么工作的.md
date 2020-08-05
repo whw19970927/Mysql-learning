@@ -1,11 +1,16 @@
 # orderby是怎么工作的
 首先有如下表，
+
 ![Image](https://img-blog.csdnimg.cn/2020080423441869.png)
+
 需求：查询城市是“杭州”按照姓名排序的前1000个人的姓名、年龄、城市信息
 
 一般这么写
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20200804235034421.png)
+
+![Image](https://img-blog.csdnimg.cn/20200804235034421.png)
+
 主要涉嫌到两部分字段，一个是查询的字段，一个排序的字段
+
 **addon字段：需要查询额外存储的字段，语句中的city，name，age**
 **sort字段 ： 用于排序的字段，语句中的name**
 
